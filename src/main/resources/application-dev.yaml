@@ -1,0 +1,49 @@
+spring:
+  #redis服务器相关配置
+  redis:
+      host: 119.29.35.223
+      password: javen73
+      port: 6379
+      timeout: 3000
+      database: 0
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  datasource:
+      url: 'jdbc:mysql://119.29.35.223:3306/sizuka?useUnicode=true&characterEncoding=utf8'
+      username: 'root'
+      password: '3368'
+      driver-class-name: 'com.mysql.jdbc.Driver'
+      type: com.alibaba.druid.pool.DruidDataSource
+      initialSize: 1
+      minIdle : 5
+      maxActive: 10
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,slf4j,wall
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      useGlobalDataSourceStat: true
+      monitorUserName: admin
+      monitorPassword: admin
+      resetEnable: false
+      allow:
+      deny:
+      exclusions:
+server:
+  port: 7373
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+  typeAliasesPackage: com.javen.sizuka.pojo
+#配置日志
+logging:
+  config : classpath:logback-boot.xml
+

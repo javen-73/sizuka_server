@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javen.sizuka.modules.account.mapper.UsersMapper">
+  <resultMap id="BaseResultMap" type="com.javen.sizuka.model.Users">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="alias_name" jdbcType="VARCHAR" property="aliasName" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="profile_picture" jdbcType="VARCHAR" property="profilePicture" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, alias_name, sex, create_time, profile_picture
+  </sql>
+  <!--
+    在MyBatis3.4.4版不能直接使用#{0}要使用 #{arg0}
+  -->
+  <select id="findUserByUsernameAndPassword" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM users u
+    WHERE u.username = #{param1} AND u.password= #{param2}
+  </select>
+  <insert id="insertUsers" parameterType="com.javen.sizuka.model.Users" useGeneratedKeys="true" keyProperty="id">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="user.id">
+      SELECT LAST_INSERT_ID() AS id
+    </selectKey>
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="user.id != null">
+        id,
+      </if>
+      <if test="user.username != null">
+        username,
+      </if>
+      <if test="user.password != null">
+        password,
+      </if>
+      <if test="user.aliasName != null">
+        alias_name,
+      </if>
+      <if test="user.sex != null">
+        sex,
+      </if>
+      <if test="user.createTime != null">
+        create_time,
+      </if>
+      <if test="user.profilePicture != null">
+        profile_picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="user.id != null">
+        #{user.id,jdbcType=INTEGER},
+      </if>
+      <if test="user.username != null">
+        #{user.username,jdbcType=VARCHAR},
+      </if>
+      <if test="user.password != null">
+        #{user.password,jdbcType=VARCHAR},
+      </if>
+      <if test="user.aliasName != null">
+        #{user.aliasName,jdbcType=VARCHAR},
+      </if>
+      <if test="user.sex != null">
+        #{user.sex,jdbcType=INTEGER},
+      </if>
+      <if test="user.createTime != null">
+        #{user.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user.profilePicture != null">
+        #{user.profilePicture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+
+  </insert>
+  <select id="findUserNameIsExist" resultType="int">
+    SELECT count(0) FROM users u WHERE u.username=#{param1}
+  </select>
+
+</mapper>
