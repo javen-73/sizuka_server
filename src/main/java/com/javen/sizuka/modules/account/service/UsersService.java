@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -33,7 +34,7 @@ public class UsersService {
         if(userNameIsExist>0){
             return ReturnDTO.buildFaildReturnDTO("用户名已存在");
         }
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         //设置用户
         //设置默认头像
         user.setProfilePicture("../assets/imgs/default.jpg");

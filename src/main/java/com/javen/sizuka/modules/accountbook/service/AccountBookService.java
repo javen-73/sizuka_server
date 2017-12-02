@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class AccountBookService {
         AccountBook accountBook = new AccountBook();
         accountBook.setUserId(userId);
         accountBook.setBookName(bookName);
-        accountBook.setCreateTime(new Date());
+        accountBook.setCreateTime(LocalDateTime.now());
         accountBookMapper.insertSelective(accountBook);
         return ReturnDTO.buildSuccessReturnDTO("创建成功",accountBook);
     }

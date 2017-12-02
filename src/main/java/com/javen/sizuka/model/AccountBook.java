@@ -3,6 +3,7 @@ package com.javen.sizuka.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -27,7 +28,7 @@ public class AccountBook implements Serializable {
      */
     private Integer status;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private static final long serialVersionUID = 1L;
 

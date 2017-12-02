@@ -1,6 +1,5 @@
 package com.javen.sizuka.modules.accountItem.service;
 
-import com.javen.sizuka.model.AccountItem;
 import com.javen.sizuka.modules.accountItem.mapper.AccountItemMapper;
 import com.javen.sizuka.utils.ReturnDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ public class AccountItemService {
     @Autowired
     private AccountItemMapper accountItemMapper;
 
-    public ReturnDTO getHeadAndBodyData(Integer userId, Integer bookId) {
-        if(userId==null||bookId==null){
+    public ReturnDTO getHeadAndBodyData(Integer userId, Integer bookId,String date) {
+        if (userId == null || bookId == null) {
             return ReturnDTO.buildFaildReturnDTO("查询失败");
         }
 

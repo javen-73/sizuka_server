@@ -38,7 +38,7 @@ public class AccountItemController {
         }
         ReturnDTO dto = null;
         try{
-            accountItemService.getHeadAndBodyData(userId,bookId);
+            accountItemService.getHeadAndBodyData(userId,bookId,null);
         }catch (Exception e){
             logger.error("查询账簿详情失败:{}",e);
             dto=ReturnDTO.buildFaildReturnDTO("查询账簿详情失败");
