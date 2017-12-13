@@ -1,4 +1,7 @@
 spring:
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
   #redis服务器相关配置
   redis:
       host: 119.29.35.223
@@ -17,33 +20,17 @@ spring:
       password: '3368'
       driver-class-name: 'com.mysql.jdbc.Driver'
       type: com.alibaba.druid.pool.DruidDataSource
-      initialSize: 1
+      initialSize: 5
       minIdle : 5
       maxActive: 10
-      maxWait: 60000
-      timeBetweenEvictionRunsMillis: 60000
-      minEvictableIdleTimeMillis: 300000
-      validationQuery: SELECT 'x'
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      poolPreparedStatements: true
-      maxPoolPreparedStatementPerConnectionSize: 20
-      filters: stat,slf4j,wall
-      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-      useGlobalDataSourceStat: true
-      monitorUserName: admin
-      monitorPassword: admin
-      resetEnable: false
-      allow:
-      deny:
-      exclusions:
+      maxWait: 6000
 server:
   port: 7373
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/*.xml
   typeAliasesPackage: com.javen.sizuka.pojo
 #配置日志
-logging:
-  config : classpath:logback-boot.xml
+#logging:
+  #config : classpath:logback-boot.xml
+
 

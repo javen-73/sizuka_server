@@ -1,16 +1,17 @@
 package com.javen.sizuka.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by javen on 2017/11/29.
  */
 public class ParameterUtil {
+    private static final Logger log = LoggerFactory.getLogger(ParameterUtil.class);
     /**
      * 从request中获得参数Map，并返回可读的Map
      *
@@ -88,4 +89,25 @@ public class ParameterUtil {
         }
         return str;
     }
+    /**
+     * 检查map参数是否为空
+     * @param parameterMap
+     * @return
+     */
+    public static ReturnDTO checkParamMap(Map<String, Object> parameterMap,List<String> param) {
+        Set<String> keySet = parameterMap.keySet();
+        for (String key:keySet){
+            //过滤 可选参数
+            if(param.contains(key))
+                continue;
+            Object temp=parameterMap.get(key);
+            if(temp==null){
+                log.error("查询失败参数不能为空:{}",key);
+                return ReturnDTO.buildFaildReturnDTO("参数不能为空:"+key);
+            }
+        }
+        return null;
+    }
+
+
 }

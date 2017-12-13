@@ -11,6 +11,11 @@
     <result column="item_status" jdbcType="INTEGER" property="itemStatus" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="item_type" jdbcType="VARCHAR" property="itemType"/>
+  </resultMap>
+  <resultMap id="mony_in_out" type="com.javen.sizuka.model.MoneyInOut">
+    <result column="money_in" jdbcType="INTEGER" property="money_in"></result>
+    <result column="money_out" jdbcType="INTEGER" property="money_out"></result>
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, book_id, price_type, price, status,item_status, remark, create_time
@@ -33,7 +38,10 @@
       #{priceType,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
        #{status,jdbcType=INTEGER},  #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.javen.sizuka.model.AccountItem">
+  <insert id="insertSelective" parameterType="com.javen.sizuka.model.AccountItem" useGeneratedKeys="true" keyProperty="id">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID() AS id
+    </selectKey>
     insert into account_item
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -106,4 +114,20 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectDashBoardInfoByThisMoth" resultMap="mony_in_out">
+     SELECT sum(i.price) money_in,SUM(o.price)money_out FROM account_item i
+    LEFT JOIN
+    account_item o
+    ON i.user_id=o.user_id AND i.book_id=o.book_id
+    WHERE o.status=1 AND o.item_status=0 AND i.status=1 AND i.item_status=1
+    AND o.user_id =#{param1} AND i.user_id = #{param1} AND i.book_id=#{param2} AND o.book_id =#{param2}
+    AND i.create_time BETWEEN #{param3} AND #{param4}
+    AND o.create_time BETWEEN #{param3} AND #{param4}
+  </select>
+  <select id="selectAccountItems" resultMap="BaseResultMap">
+    SELECT i.*,t.type_name AS item_type FROM account_item i
+    LEFT JOIN item_type t ON i.price_type = t.id
+    WHERE user_id=#{param1} AND book_id=#{param1} AND create_time BETWEEN #{param3} AND #{param4} ORDER BY create_time DESC
+  </select>
 </mapper>
