@@ -116,7 +116,7 @@
   </update>
 
   <select id="selectDashBoardInfoByThisMoth" resultMap="mony_in_out">
-     SELECT sum(i.price) money_in,SUM(o.price)money_out FROM account_item i
+     SELECT IFNULL(sum(i.price),0) money_in,IFNULL(SUM(o.price),0) money_out FROM account_item i
     LEFT JOIN
     account_item o
     ON i.user_id=o.user_id AND i.book_id=o.book_id
@@ -128,6 +128,6 @@
   <select id="selectAccountItems" resultMap="BaseResultMap">
     SELECT i.*,t.type_name AS item_type FROM account_item i
     LEFT JOIN item_type t ON i.price_type = t.id
-    WHERE user_id=#{param1} AND book_id=#{param1} AND create_time BETWEEN #{param3} AND #{param4} ORDER BY create_time DESC
+    WHERE user_id=#{param1} AND book_id=#{param2} AND create_time BETWEEN #{param3} AND #{param4} ORDER BY create_time DESC
   </select>
 </mapper>
