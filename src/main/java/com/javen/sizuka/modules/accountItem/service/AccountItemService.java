@@ -2,7 +2,7 @@ package com.javen.sizuka.modules.accountItem.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jaen.sizuka.model.ItemType;
+import com.javen.sizuka.model.ItemType;
 import com.javen.sizuka.model.AccountItem;
 import com.javen.sizuka.model.MoneyInOut;
 import com.javen.sizuka.model.Page;
@@ -11,12 +11,10 @@ import com.javen.sizuka.modules.accountItem.mapper.ItemTypeMapper;
 import com.javen.sizuka.utils.MoneyUtil;
 import com.javen.sizuka.utils.ParameterUtil;
 import com.javen.sizuka.utils.ReturnDTO;
-import com.javen.sizuka.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,11 +57,12 @@ public class AccountItemService {
         LocalDate lastDayOfThisMonth = localDate.with(TemporalAdjusters.lastDayOfMonth());
         logger.info("first day is :{}", firstDayOfThisMonth);
         logger.info("last day is :{}", lastDayOfThisMonth);
-        MoneyInOut moneyInOut = accountItemMapper.selectDashBoardInfoByThisMoth(userId, bookId, firstDayOfThisMonth, lastDayOfThisMonth);
-        if (moneyInOut == null) {
-            return ReturnDTO.buildFaildReturnDTO("查询失败");
-        }
-        moneyInOut.setBalance(moneyInOut.getMoney_in() - moneyInOut.getMoney_out());
+        int earn = accountItemMapper.selectDashBoard(userId, bookId, firstDayOfThisMonth, lastDayOfThisMonth,1);
+        int disburse = accountItemMapper.selectDashBoard(userId, bookId, firstDayOfThisMonth, lastDayOfThisMonth,0);
+        MoneyInOut moneyInOut = new MoneyInOut();
+        moneyInOut.setMoney_in(earn);
+        moneyInOut.setMoney_out(disburse);
+        moneyInOut.setBalance(moneyInOut.getMoney_in() + moneyInOut.getMoney_out());
 
         Map<String, Object> result = new HashMap<String, Object>();
         Page p = new Page();
@@ -79,9 +78,9 @@ public class AccountItemService {
         p.setPages(info.getPages());
         p.setPage(page);
         p.setLastPage(info.isIsLastPage());
-        result.put("earn", MoneyUtil.save2Digit(moneyInOut.getMoney_in() / 100.00d));
-        result.put("disburse", MoneyUtil.save2Digit(moneyInOut.getMoney_out() / 100.00d));
-        result.put("balance", MoneyUtil.save2Digit(moneyInOut.getBalance() / 100.00d));
+        result.put("earn", MoneyUtil.save2Digit(moneyInOut.getMoney_in() / 100d)); //收入
+        result.put("disburse", MoneyUtil.save2Digit(moneyInOut.getMoney_out() / 100d)); //支出
+        result.put("balance", MoneyUtil.save2Digit(moneyInOut.getBalance() / 100d)); //结账
         result.put("page", p);
         return ReturnDTO.buildSuccessReturnDTO("查询成功", result);
     }
@@ -91,8 +90,8 @@ public class AccountItemService {
         Object userId = params.get("userId");
         Object bookId =params.get("bookId");
         Object money =params.get("money");
-        Object type = params.get("type");
-        Object priceType = params.get("priceType");
+        Object iconType = params.get("iconType");
+        Object priceType = params.get("priceType"); //收入支出
         Object date = params.get("date");
         Object remark = params.get("remark");
 
@@ -100,8 +99,8 @@ public class AccountItemService {
         accountItem.setUserId(Integer.parseInt(userId.toString()));
         accountItem.setBookId(Integer.parseInt(bookId.toString()));
         accountItem.setPrice(Integer.parseInt(money.toString()));
-        accountItem.setPriceType(Integer.parseInt(type.toString()));
-        accountItem.setItemStatus(Integer.parseInt(priceType.toString()));
+        accountItem.setPriceType(Integer.parseInt(iconType.toString())); //icon Type
+        accountItem.setItemStatus(Integer.parseInt(priceType.toString())); //收入支出，别搞混
         accountItem.setCreateTime(LocalDateTime.of(LocalDate.parse(date.toString()), LocalTime.now()));
         accountItem.setRemark((String) remark);
         accountItemMapper.insertSelective(accountItem);

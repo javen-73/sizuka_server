@@ -4,6 +4,10 @@ import com.javen.sizuka.model.Users;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 public interface UsersMapper {
 
@@ -12,4 +16,8 @@ public interface UsersMapper {
     int insertUsers(@Param("user") Users user);
 
     int findUserNameIsExist(String username);
+
+    int savePosition(@Param("position") String position);
+
+    List<Map<String,Object>> findPosition();
 }

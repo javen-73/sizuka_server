@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by javen on 2017/11/28.
  */
@@ -59,6 +63,17 @@ public class UserController {
         return dto;
 
     }
-
+    //测试地理位置用
+    @RequestMapping(value="/position")
+    @ResponseBody
+    public String savePosition(HttpServletRequest request){
+        String position = request.getParameter("position");
+        return usersService.savePosition(position);
+    }
+    @RequestMapping(value="/findposition")
+    @ResponseBody
+    public List<Map<String,Object>> findposition(HttpServletRequest request){
+        return usersService.findPosition();
+    }
 
 }

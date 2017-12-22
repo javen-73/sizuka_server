@@ -25,4 +25,6 @@ public interface AccountItemMapper {
     MoneyInOut selectDashBoardInfoByThisMoth(String userId, String bookId, LocalDate firstDayOfThisMonth, LocalDate lastDayOfThisMonth);
 
     List<AccountItem> selectAccountItems(String userId, String bookId, LocalDate firstDayOfThisMonth, LocalDate lastDayOfThisMonth);
+
+    int selectDashBoard(String userId, String bookId, LocalDate firstDayOfThisMonth, LocalDate lastDayOfThisMonth,int in_out);
 }

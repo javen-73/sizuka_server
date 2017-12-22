@@ -1,4 +1,4 @@
-package com.jaen.sizuka.model;
+package com.javen.sizuka.model;
 
 import java.io.Serializable;
 

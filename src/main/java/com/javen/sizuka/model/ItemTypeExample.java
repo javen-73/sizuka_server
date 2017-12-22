@@ -1,4 +1,4 @@
-package com.jaen.sizuka.model;
+package com.javen.sizuka.model;
 
 import java.util.ArrayList;
 import java.util.List;

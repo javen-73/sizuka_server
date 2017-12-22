@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javen.sizuka.modules.accountItem.mapper.ItemTypeMapper">
-  <resultMap id="BaseResultMap" type="com.jaen.sizuka.model.ItemType">
+  <resultMap id="BaseResultMap" type="com.javen.sizuka.model.ItemType">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="type_name" jdbcType="VARCHAR" property="typeName" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -67,7 +67,7 @@
   <sql id="Base_Column_List">
     id, type_name, status
   </sql>
-  <select id="selectByExample" parameterType="com.jaen.sizuka.model.ItemTypeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.javen.sizuka.model.ItemTypeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -99,19 +99,19 @@
     delete from item_type
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jaen.sizuka.model.ItemTypeExample">
+  <delete id="deleteByExample" parameterType="com.javen.sizuka.model.ItemTypeExample">
     delete from item_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jaen.sizuka.model.ItemType">
+  <insert id="insert" parameterType="com.javen.sizuka.model.ItemType">
     insert into item_type (id, type_name, status
       )
     values (#{id,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.jaen.sizuka.model.ItemType">
+  <insert id="insertSelective" parameterType="com.javen.sizuka.model.ItemType">
     insert into item_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -136,7 +136,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jaen.sizuka.model.ItemTypeExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.javen.sizuka.model.ItemTypeExample" resultType="java.lang.Long">
     select count(*) from item_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -168,7 +168,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jaen.sizuka.model.ItemType">
+  <update id="updateByPrimaryKeySelective" parameterType="com.javen.sizuka.model.ItemType">
     update item_type
     <set>
       <if test="typeName != null">
@@ -180,7 +180,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jaen.sizuka.model.ItemType">
+  <update id="updateByPrimaryKey" parameterType="com.javen.sizuka.model.ItemType">
     update item_type
     set type_name = #{typeName,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}

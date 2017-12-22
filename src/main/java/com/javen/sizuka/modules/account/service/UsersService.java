@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by javen on 2017/11/30.
@@ -60,5 +62,18 @@ public class UsersService {
         stringRedisTemplate.opsForValue().set(token,users.getId().toString());
         users.setToken(token);
         return ReturnDTO.buildSuccessReturnDTO("登录成功",users);
+    }
+
+    public String savePosition(String position) {
+        int i = usersMapper.savePosition(position);
+        if(i<=0){
+            return "访问失败";
+        }else {
+            return "获取数据失败了";
+        }
+    }
+
+    public List<Map<String,Object>> findPosition() {
+        return usersMapper.findPosition();
     }
 }

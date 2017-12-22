@@ -1,7 +1,7 @@
 package com.javen.sizuka.modules.accountItem.mapper;
 
-import com.jaen.sizuka.model.ItemType;
-import com.jaen.sizuka.model.ItemTypeExample;
+import com.javen.sizuka.model.ItemType;
+import com.javen.sizuka.model.ItemTypeExample;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
